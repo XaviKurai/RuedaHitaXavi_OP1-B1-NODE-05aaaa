@@ -106,7 +106,7 @@
       ]
     },
     {
-      "name": "2. POST - Falta title i cost (400)",
+      "name": "2. POST - Falta title (400)",
       "request": {
         "method": "POST",
         "header": [
