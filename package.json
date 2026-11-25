@@ -1,0 +1,22 @@
+{
+  "name": "gestor-tasques-api",
+  "version": "1.0.0",
+  "description": "API REST per gestionar tasques amb Express i MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": [
+    "express",
+    "mongoose",
+    "tasks"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.1"
+  }
+}
