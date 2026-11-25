@@ -1,6 +1,7 @@
 const express = require('express');
 const taskController = require('../controllers/taskController');
 
+// El controlador conté la lògica i aquest router associa cada mètode i ruta.
 const router = express.Router();
 
 router.post('/', taskController.createTask);

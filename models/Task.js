@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// L'esquema defineix els camps, les validacions i els valors per defecte.
 const taskSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -40,6 +41,7 @@ const taskSchema = new mongoose.Schema({
     default: null
   }
 }, {
+  // Mongoose genera createdAt i updatedAt automàticament.
   timestamps: true
 });
 

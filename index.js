@@ -11,6 +11,7 @@ async function iniciarServidor() {
     throw new Error('Falta definir MONGO_URI al fitxer .env');
   }
 
+  // El servidor HTTP només s'engega quan MongoDB accepta la connexió.
   await mongoose.connect(mongoUri);
   console.log('Connexió amb MongoDB establerta');
 

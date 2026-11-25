@@ -5,14 +5,17 @@ const taskRoutes = require('./routes/taskRoutes');
 const app = express();
 
 app.use(cors());
+// Aquest middleware deixa el JSON rebut disponible a req.body.
 app.use(express.json());
 
 app.get('/', (req, res) => {
   res.json({ message: 'Gestor de tasques en funcionament!' });
 });
 
+// Agrupem totes les operacions de tasques sota el mateix prefix.
 app.use('/api/tasks', taskRoutes);
 
+// Aquesta resposta s'aplica només si cap ruta anterior no coincideix.
 app.use((req, res) => {
   res.status(404).json({
     message: 'Ruta no trobada',

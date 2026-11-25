@@ -11,6 +11,7 @@ const taskFields = [
   'completed'
 ];
 
+// Només copiem camps editables per evitar que el client canviï l'ID o les dates.
 function readTaskFields(body) {
   if (body === undefined) {
     return {};
@@ -36,6 +37,7 @@ function isValidId(id) {
 exports.createTask = async (req, res) => {
   const task = new Task(readTaskFields(req.body));
 
+  // La data de finalització la decideix el servidor, no el cos de la petició.
   if (task.completed) {
     task.finished_at = new Date();
   }
@@ -76,6 +78,7 @@ exports.updateTask = async (req, res) => {
   const wasCompleted = task.completed;
   Object.assign(task, updates);
 
+  // En completar-la fixem la data; en desmarcar-la la tornem a null.
   if (task.completed) {
     if (!wasCompleted || !task.finished_at) {
       task.finished_at = new Date();
