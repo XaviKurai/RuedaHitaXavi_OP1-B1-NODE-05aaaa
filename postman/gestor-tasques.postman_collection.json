@@ -1,0 +1,469 @@
+{
+  "info": {
+    "_postman_id": "94df70c2-2243-4f3e-b652-87d7857005f3",
+    "name": "Gestor de tasques",
+    "description": "Proves CRUD de l'API. Executa les peticions en ordre: el POST desa l'ID per a les peticions següents. Cada petició inclou una resposta Example obtinguda del servidor local.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "taskId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. POST - Crear tasca correcta (201)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('La tasca s'ha creat', function () {",
+              "    pm.response.to.have.status(201);",
+              "    pm.collectionVariables.set('taskId', pm.response.json()._id);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"CRUD demo task\",\n  \"description\": \"Postman example task\",\n  \"cost\": 120,\n  \"hours_estimated\": 8,\n  \"image\": \"https://example.com/task.jpg\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "tasks"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "201 Created",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"CRUD demo task\",\n  \"description\": \"Postman example task\",\n  \"cost\": 120,\n  \"hours_estimated\": 8,\n  \"image\": \"https://example.com/task.jpg\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tasks"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"title\": \"CRUD demo task\",\n  \"description\": \"Postman example task\",\n  \"cost\": 120,\n  \"hours_estimated\": 8,\n  \"hours_real\": null,\n  \"image\": \"https://example.com/task.jpg\",\n  \"completed\": false,\n  \"finished_at\": null,\n  \"_id\": \"6b071e073d493db39e06dbc3\",\n  \"createdAt\": \"2026-11-25T17:42:31.780Z\",\n  \"updatedAt\": \"2026-11-25T17:42:31.780Z\",\n  \"__v\": 0\n}"
+        }
+      ]
+    },
+    {
+      "name": "2. POST - Falta title i cost (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"description\": \"Missing required title\",\n  \"cost\": 120,\n  \"hours_estimated\": 8\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "tasks"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "400 Bad Request",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Missing required title\",\n  \"cost\": 120,\n  \"hours_estimated\": 8\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tasks"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"message\": \"Les dades de la tasca no són vàlides\",\n  \"details\": [\n    \"El títol és obligatori\"\n  ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "3. GET - Obtenir totes les tasques",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "tasks"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tasks"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n  {\n    \"_id\": \"6b071e073d493db39e06dbc3\",\n    \"title\": \"CRUD demo task\",\n    \"description\": \"Postman example task\",\n    \"cost\": 120,\n    \"hours_estimated\": 8,\n    \"hours_real\": null,\n    \"image\": \"https://example.com/task.jpg\",\n    \"completed\": false,\n    \"finished_at\": null,\n    \"createdAt\": \"2026-11-25T17:42:31.780Z\",\n    \"updatedAt\": \"2026-11-25T17:42:31.780Z\",\n    \"__v\": 0\n  }\n]"
+        }
+      ]
+    },
+    {
+      "name": "4. GET - Obtenir una tasca per ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks/{{taskId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "tasks",
+            "{{taskId}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/{{taskId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                "{{taskId}}"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"_id\": \"6b071e073d493db39e06dbc3\",\n  \"title\": \"CRUD demo task\",\n  \"description\": \"Postman example task\",\n  \"cost\": 120,\n  \"hours_estimated\": 8,\n  \"hours_real\": null,\n  \"image\": \"https://example.com/task.jpg\",\n  \"completed\": false,\n  \"finished_at\": null,\n  \"createdAt\": \"2026-11-25T17:42:31.780Z\",\n  \"updatedAt\": \"2026-11-25T17:42:31.780Z\",\n  \"__v\": 0\n}"
+        }
+      ]
+    },
+    {
+      "name": "5. GET - ID inexistent (404)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks/000000000000000000000001",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "tasks",
+            "000000000000000000000001"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "404 Not Found",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/000000000000000000000001",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                "000000000000000000000001"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"message\": \"Tasca no trobada\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "6. PUT - Marcar la tasca com a completada",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('La data de finalització s’ha desat', function () {",
+              "    pm.response.to.have.status(200);",
+              "    pm.expect(pm.response.json().finished_at).to.be.a('string');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"completed\": true,\n  \"hours_real\": 6,\n  \"image\": \"https://example.com/updated-task.jpg\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks/{{taskId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "tasks",
+            "{{taskId}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK - completed i finished_at",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completed\": true,\n  \"hours_real\": 6,\n  \"image\": \"https://example.com/updated-task.jpg\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/{{taskId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                "{{taskId}}"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"_id\": \"6b071e073d493db39e06dbc3\",\n  \"title\": \"CRUD demo task\",\n  \"description\": \"Postman example task\",\n  \"cost\": 120,\n  \"hours_estimated\": 8,\n  \"hours_real\": 6,\n  \"image\": \"https://example.com/updated-task.jpg\",\n  \"completed\": true,\n  \"finished_at\": \"2026-11-25T17:42:31.799Z\",\n  \"createdAt\": \"2026-11-25T17:42:31.780Z\",\n  \"updatedAt\": \"2026-11-25T17:42:31.799Z\",\n  \"__v\": 0\n}"
+        }
+      ]
+    },
+    {
+      "name": "7. DELETE - Eliminar la tasca",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks/{{taskId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "tasks",
+            "{{taskId}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK - Tasca eliminada",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/{{taskId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                "{{taskId}}"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"message\": \"Tasca eliminada correctament\",\n  \"task\": {\n    \"_id\": \"6b071e073d493db39e06dbc3\",\n    \"title\": \"CRUD demo task\",\n    \"description\": \"Postman example task\",\n    \"cost\": 120,\n    \"hours_estimated\": 8,\n    \"hours_real\": 6,\n    \"image\": \"https://example.com/updated-task.jpg\",\n    \"completed\": true,\n    \"finished_at\": \"2026-11-25T17:42:31.799Z\",\n    \"createdAt\": \"2026-11-25T17:42:31.780Z\",\n    \"updatedAt\": \"2026-11-25T17:42:31.799Z\",\n    \"__v\": 0\n  }\n}"
+        }
+      ]
+    }
+  ]
+}
